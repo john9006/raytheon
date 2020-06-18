@@ -1,3 +1,8 @@
-/** 
-this should be in root of working directory, created by sn-scriptsync
-*/
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5"
+  },
+  "exclude": ["node_modules", "**/node_modules/*"]
+}
+

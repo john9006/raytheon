@@ -7,6 +7,11 @@ ClientDateTimeUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
         json45 input can be found under Admin Pros blog entry in MB's article
     */
 
+   //var gdt = new GlideDateTime();
+   // var createNewCaseTimeOut = gs.getProperty('sn_hr_core.duplicate_hr_case_time_out', gdt);
+   // gdt.addDaysLocalTime(-createNewCaseTimeOut);
+
+  
     //Takes a Single Date/Time Field and returns its time difference from nowDateTime().
     //params = sysparm_fdt (the first date/time field), sysparm_difftype (time based format to return result. See "_calcDateDiff" function comments)
     getNowDateTimeDiff: function() {
@@ -21,10 +26,17 @@ ClientDateTimeUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
     //Diff the amount of time between two different Date/Time fields
     //params = sysparm_fdt (the first date/time field), sysparm_sdt (second date/time field), sysparm_difftype (time based format to return result. See "_calcDateDiff" function comments)
     getDateTimeDiff: function() {
-        var firstDT = this.getParameter('sysparm_fdt'); //First Date-Time Field
-        var secondDT = this.getParameter('sysparm_sdt'); // Second Date-Time Field
-        var diffTYPE = this.getParameter('sysparm_difftype'); // Date-Time Type to return the answer as. Can be second, minute, hour, day
-        var diff = gs.dateDiff(firstDT, secondDT, true);
+        var endDateTime = new GlideDateTime(this.getParameter('sysparm_fdt')); //First Date-Time Field set to UTC
+        var startDateTime = new GlideDateTime(this.getParameter('sysparm_sdt')); // Second Date-Time Field set to UTC
+        var diffTYPE = this.getParameter('sysparm_difftype'); // Date-Time Type to return the answer as. Can be second, minute, hour, day       
+        
+        var offsetEndTime = endDateTime.getTZOffset();
+        var offsetStartTime = startDateTime.getTZOffset();
+        // get the diff in seconds 
+        // WIP The GlideDateTime is in UTC but it has the local value from the client - to get it back to UTC then deduct below offset 
+        // and then see what happens wigh a getDisplay - I think it shold give the local time correctly
+		//diff =  Math.floor((endDateTime.getNumericValue() + offsetEndTime) / 1000) - Math.floor((startDateTime.getNumericValue() + offsetStartTime) / 1000);
+        // convert this to the desired unit of time
         var timediff = this._calcDateDiff(diffTYPE, diff);
         //return "getDateTimeDiff: FIRST DT: " + firstDT + " -SECOND DT: " + secondDT + " -DIFFTYPE: " + diffTYPE + " -TIME DIFF: " + timediff;
         return timediff;

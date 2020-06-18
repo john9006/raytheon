@@ -1,0 +1,3 @@
+// remember to load the UI script in an onload script
+var fieldValue = s_ajax.getReference(referenceField,callbackFunction, arrayOfFieldsToGet);
+ga
