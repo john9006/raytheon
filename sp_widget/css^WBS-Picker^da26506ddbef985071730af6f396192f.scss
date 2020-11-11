@@ -1,0 +1,32 @@
+/* Show a department without children as a dot */
+div[data-tree-model] li .normal {
+  padding: 1px 10px;
+  background-image: url("fa-circle.png");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+div[data-tree-model] li .expanded {
+  padding: 1px 10px;
+  background-image: url("fa-minus-square-o.png");
+  background-repeat: no-repeat;
+}
+
+div[data-tree-model] li .collapsed {
+  padding: 1px 10px;
+  position:relative;
+  background-image: url("images/and.png");
+  background-repeat: no-repeat;
+}
+
+.tree {
+    height: 500px;
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
+//Dont show the X button in IE inside the search field
+input[type=search]::-ms-clear {
+   display: none;
+}

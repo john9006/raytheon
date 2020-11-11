@@ -1,0 +1,23 @@
+<!-- Load font awesome 4.7 -->
+<!--<script src="https://use.fontawesome.com/b0f9c5d263.js"></script>-->
+<!-- Show loading message -->
+<div ng-if="!data.treedata"><i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>${Loading WBS entries...}</div>
+<div ng-show="data.treedata">
+  <div>
+<!--    <dir-pagination-controls max-size="10" on-page-change="getPage(newPageNumber)"></dir-pagination-controls> -->
+<!--    <div><label for="filter">${Search}:</label><input type="search" ng-model="data.filter" ng-change="getFilter()" ng-model-options='{ debounce: 1000 }' id="item_search" placeholder="${Type here}"><i class="fa fa-spinner fa-spin fa-1x fa-fw" ng-show="searching"></i></div> -->
+<!--    <div dir-paginate="node in data.treedata | itemsPerPage: data.pageSize" total-items="data.count"/> -->
+    <div class="row">
+      <div class="col-md-12 tree">
+        <div
+            data-angular-treeview="true"
+            data-tree-id="dep"
+            data-tree-model="data.treedata"
+            data-node-id="id"
+            data-node-label="label"
+            data-node-children="children" >
+        </div>
+      </div>
+  </div>
+<!-- <pre> {{data}} </pre> -->
+  
