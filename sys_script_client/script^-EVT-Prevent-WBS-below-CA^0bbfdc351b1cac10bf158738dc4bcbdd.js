@@ -15,19 +15,17 @@ function onChange(control, oldValue, newValue, isLoading, isTemplate) {
 }
 
 function myCallback(response) {
-    var answer = response.responseXML.documentElement.getAttribute("answer");
-    //g_form.addInfoMessage('the returned vals are ' + answer);
+    var answer = response.responseXML.documentElement.getAttribute("answer");   
     answer = JSON.parse(answer);
     useFieldValues(answer);
 }
 
 function useFieldValues(data) { //returns only the values we need   
 
-    if (data.u_control_account.displayValue == 'true') {
+    if (data.u_control_account.value > 0) {
         g_form.showFieldMsg('u_parent', 'The parent is a Control Account and can not be the parent to ' + g_form.getValue('u_wbs_number'));
+        setTimeout(function() {
+            g_form.setValue('u_parent', '');
+        }, 5000);        
     }
-    setTimeout(function() {
-        g_form.setValue('u_parent', '');
-    }, 5000);
-
 }

@@ -29,10 +29,8 @@ EVTAdvancedReference.prototype = {
 		evtUtil.query();
 		
 		var capArray = [];
-		while(evtUtil.next()) {
-			//gs.info('>> evtUtil record id is ' + evtUtil.u_id );
-			capArray.push(evtUtil.sys_id.toString());
-			
+		while(evtUtil.next()) {			
+			capArray.push(evtUtil.sys_id.toString());			
 		}
 		
 		return 'sys_idIN' + capArray;
@@ -47,8 +45,7 @@ EVTAdvancedReference.prototype = {
 		evtUtil.query();
 		
 		var sowArray = [];
-		while(evtUtil.next()) {
-			//gs.info('>> evtUtil record id is ' + evtUtil.u_id );
+		while(evtUtil.next()) {			
 			sowArray.push(evtUtil.sys_id.toString());
 			
 		}
@@ -88,6 +85,7 @@ EVTAdvancedReference.prototype = {
 	getReferencesForWBS: function(){
 		var evtWBS = new GlideRecord('u_evt_wbs');
 		evtWBS.addQuery('u_project', current.u_project);
+		evtWBS.addQuery('sys_id', '!=', current.sys_id);
 		evtWBS.query();
 		var wbsArray = [];
 		while(evtWBS.next()) {			
@@ -99,8 +97,7 @@ EVTAdvancedReference.prototype = {
 	},
 	getReferencesForWbsControlAccount: function(){
 		var evtWBS = new GlideRecord('u_evt_wbs');
-		evtWBS.addQuery('u_project', current.u_project);
-		//evtWBS.addQuery('u_control_account', true);
+		evtWBS.addQuery('u_project', current.u_project);		
 		evtWBS.query();
 		var wbsArray = [];
 		while(evtWBS.next()) {			
@@ -141,6 +138,93 @@ EVTAdvancedReference.prototype = {
 		
 		return 'sys_idIN' + approverArray;
 	},
+	getWBSReferencesForProject: function(){
+		var evtWBS = new GlideRecord('u_evt_wbs');
+		evtWBS.addQuery('u_project', current.sys_id);
+		evtWBS.query();
+		var wbsArray = [];
+		while(evtWBS.next()) {			
+			wbsArray.push(evtWBS.sys_id.toString());			
+		}
+		
+		return 'sys_idIN' + wbsArray;
+		
+	},
+	
+	getDefaultApproversForWBS: function() {
+		var approverArray = [];
+		
+		var approverRec = new GlideRecord('u_evt_default_approver');
+		approverRec.addQuery('u_project', current.u_project);
+		
+		approverRec.query();
+		
+		while(approverRec.next()){
+			approverArray.push(approverRec.u_approver.toString());			
+		}
+		
+		return 'sys_idIN' + approverArray;
+	},
+	getProducerDefaultApproverForRole: function(role_descriptor) {
+		var approverArray = [];
+		
+		var approverRec = new GlideRecord('u_evt_default_approver');
+		approverRec.addQuery('u_project', current.variables.u_project);
+		approverRec.addQuery('u_role_descriptor', role_descriptor);
+		approverRec.query();
+		
+		while(approverRec.next()){
+			approverArray.push(approverRec.u_approver.toString());			
+		}
+		
+		return 'sys_idIN' + approverArray;
+	},
+	
+	getWBSReferencesForProgram: function(evtProgram){
+		var evtWBS = new GlideRecord('u_evt_wbs');
+		evtWBS.addQuery('u_project', evtProgram);
+		evtWBS.query();
+		var wbsArray = [];
+		while(evtWBS.next()) {			
+			wbsArray.push(evtWBS.sys_id.toString());			
+		}
+		
+		return 'sys_idIN' + wbsArray;
+		
+	},
+	
+	getProducerRefsForTypeByProj: function(record_type, projectID) {		
+		var evtUtil = new GlideRecord("u_evt_utility_reference");
+		evtUtil.addActiveQuery();
+		evtUtil.addQuery('u_project', projectID);
+		evtUtil.addQuery('u_type', record_type);
+		evtUtil.query();
+		
+		var listArray = [];
+		while(evtUtil.next()) {			
+			listArray.push(evtUtil.sys_id.toString());			
+		}
+		
+		return 'sys_idIN' + listArray;
+		
+	},
+	
+	getReferencesForWBSByProj: function(wbsID, projID){
+		var evtWBS = new GlideRecord('u_evt_wbs');
+		evtWBS.addQuery('u_project', projID);
+		evtWBS.addQuery('sys_id', '!=', wbsID);
+		evtWBS.query();
+		var wbsArray = [];
+		while(evtWBS.next()) {			
+			wbsArray.push(evtWBS.sys_id.toString());			
+		}
+		
+		return 'sys_idIN' + wbsArray;
+		
+	},
+	
+	
+	
 
     type: 'EVTAdvancedReference'
 };
